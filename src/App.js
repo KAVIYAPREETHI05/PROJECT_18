@@ -7,6 +7,7 @@ import UserTaskPage from './components/UserTaskPage';
 import AdminDashboard from './components/AdminDashboard';
 import AdminTaskAssign from './components/AdminTaskAssign';
 import AdminTaskStatus from './components/AdminTaskStatus';
+import LoginPage from './components/LoginPage';
 import './components/Sidebar.css';
 import './App.css';
 
@@ -30,7 +31,8 @@ function App() {
           </Route>
 
           {/* Default Route */}
-          <Route path="/" element={<h1>Welcome! Please select a panel.</h1>} />
+       
+          <Route path="/" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>
