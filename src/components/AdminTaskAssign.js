@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AdminTaskAssign.css'; // Ensure you have a corresponding CSS file for styling
+import '../CSS/AdminTaskAssign.css'; // Ensure you have a corresponding CSS file for styling
 
 function AdminTaskAssign() {
   const [taskId, setTaskId] = useState('');

@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserDashboard.css'; // Make sure you have a corresponding CSS file for styling
+import '../CSS/UserDashboard.css'; // Make sure you have a corresponding CSS file for styling
 
 function UserDashboard() {
   return (

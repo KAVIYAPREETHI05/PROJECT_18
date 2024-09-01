@@ -1,5 +1,5 @@
 import React from 'react';
-import './UserView.css'; // Import the CSS file
+import '../CSS/UserView.css'; // Import the CSS file
 
 function UserView() {
   // Sample data; replace with actual data as needed

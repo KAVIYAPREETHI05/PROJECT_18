@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './AdminTaskStatus.css'; // Ensure you have a corresponding CSS file for styling
+import '../CSS/AdminTaskStatus.css'; // Ensure you have a corresponding CSS file for styling
 
 function AdminTaskStatus() {
   // Sample task data

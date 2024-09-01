@@ -1,5 +1,5 @@
 import React from "react";
-import "./Dashboard.css";
+import "../CSS/Dashboard.css";
 
 const workers = [
   { id: "W01", name: "Kowsi", work: "Plumber", task: 15 },

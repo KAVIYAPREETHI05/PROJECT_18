@@ -1,6 +1,5 @@
 import React from 'react';
-import './AdminDashboard.css'; // Make sure you have a corresponding CSS file for styling
-
+import '../CSS/AdminDashboard.css'
 function AdminDashboard() {
   return (
     <div className="admin-dashboard">

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './UserTaskPage.css'; // Ensure you have a corresponding CSS file for styling
+import '../CSS/UserTaskPage.css'; // Ensure you have a corresponding CSS file for styling
 
 function UserTaskPage() {
   // Sample tasks data
