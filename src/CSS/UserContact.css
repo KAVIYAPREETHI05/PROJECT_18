@@ -1,0 +1,72 @@
+.contact-page {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  label {
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  .form-select,
+  .form-button {
+    margin-bottom: 15px;
+  }
+  
+  .form-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s;
+  }
+  
+  .form-select.error {
+    border-color: red;
+  }
+  
+  .members-list {
+    margin-bottom: 15px;
+  }
+  
+  .members-list p {
+    font-weight: bold;
+  }
+  
+  .members-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .members-list li {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .call-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .call-button:hover {
+    background-color: #218838;
+  }
+  

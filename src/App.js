@@ -3,7 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Outlet } from 'react-router-dom
 import UserView from './components/UserView';
 import Sidebar from './components/Sidebar';
 import UserDashboard from './components/UserDashboard';
-import UserTaskPage from './components/UserTaskPage';
+import UserNewTaskPage from './components/UserNewTaskPage';
+import UserCompletedTask from './components/UserCompletedTask';
+import UserOngoingTask from './components/UserOngoingTask';
+import UserContact from './components/UserContact'
 import AdminDashboard from './components/AdminDashboard';
 import AdminTaskAssign from './components/AdminTaskAssign';
 import AdminTaskStatus from './components/AdminTaskStatus';
@@ -20,8 +23,12 @@ function App() {
           {/* User Routes */}
           <Route path="/user" element={<UserLayout />}>
             <Route path="dashboard" element={<UserDashboard />} />
-            <Route path="task" element={<UserTaskPage />} />
-            <Route path="view" element={<UserView />} />
+            <Route path="task" element={<UserNewTaskPage />} />
+            <Route path="completed" element={<UserCompletedTask />} />
+            <Route path="ongoing" element={<UserOngoingTask />} />
+            <Route path="contact" element={<UserContact />} />
+          
+            
           </Route>
 
           {/* Admin Routes */}

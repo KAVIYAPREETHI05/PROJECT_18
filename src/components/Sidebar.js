@@ -14,7 +14,17 @@ function Sidebar({ userType }) {
           <Link to={`/${userType}/dashboard`}>Dashboard</Link>
         </li>
         <li className={isActive(`/${userType}/task`) ? 'active' : ''}>
-          <Link to={`/${userType}/task`}>Task</Link>
+          <Link to={`/${userType}/task`}>New Task</Link>
+        </li>
+       
+        <li className={isActive(`/${userType}/completed`) ? 'active' : ''}>
+          <Link to={`/${userType}/completed`}>Completed Task</Link>
+        </li>
+        <li className={isActive(`/${userType}/ongoing`) ? 'active' : ''}>
+          <Link to={`/${userType}/ongoing`}>On Progress Task</Link>
+        </li>
+        <li className={isActive(`/${userType}/contact`) ? 'active' : ''}>
+          <Link to={`/${userType}/contact`}>Contact</Link>
         </li>
         {userType === 'admin' && (
           <>
