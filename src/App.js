@@ -33,7 +33,7 @@ function App() {
 
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>
-            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="admin-dashboard" element={<AdminDashboard />} />
             <Route path="task-assign" element={<AdminTaskAssign />} />
             <Route path="task-status" element={<AdminTaskStatus />} />
           </Route>

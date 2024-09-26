@@ -1,54 +1,112 @@
-import React from 'react';
-import '../CSS/AdminDashboard.css'
+//import React from 'react';
+import '../CSS/AdminDashboard.css';
+import React, { useState, useMemo } from 'react';
+
+const initialWorkers = [
+    { id: 101, name: 'Anand Kumar', email: 'anand.k@example.com', natureOfWork: 'Server Maintenance', experience: 5, mobile: '9876543210', totalTasksCompleted: 12 },
+    { id: 102, name: 'Rajesh Kumar', email: 'rajesh.k@example.com', natureOfWork: 'Database Management', experience: 3, mobile: '9876543211', totalTasksCompleted: 8 },
+    { id: 103, name: 'Sudharsan M', email: 'sudharsan.m@example.com', natureOfWork: 'Network Setup', experience: 4, mobile: '9876543212', totalTasksCompleted: 10 },
+    { id: 104, name: 'Ravi Kumar', email: 'ravi.k@example.com', natureOfWork: 'Software Development', experience: 2, mobile: '9876543213', totalTasksCompleted: 5 },
+    
+    // Add more workers if necessary
+];
+
 function AdminDashboard() {
-  return (
-    <div className="admin-dashboard">
-      <h1>Admin Dashboard</h1>
-      <div className="dashboard-content">
-        <section className="system-metrics">
-          <h2>System Metrics</h2>
-          <div className="metrics">
-            <div className="metric-card">
-              <h3>Total Workers</h3>
-              <p>1,245 workers</p>
-            </div>
-            <div className="metric-card">
-              <h3>completed task</h3>
-              <p>980 taks</p>
-            </div>
-            <div className="metric-card">
-              <h3>Pending task</h3>
-              <p>23 tasks</p>
-            </div>
-            <div className="metric-card">
-              <h3>FindAll</h3>
-              <p>track location of worker</p>
-            </div>
-          </div>
-        </section>
+    const [workers, setWorkers] = useState(initialWorkers);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
-        <section className="recent-activities">
-          <h2>Recent Activities</h2>
-          <ul>
-            <li>Approved new user registrations</li>
-            <li>Assign task for workers</li>
-            <li>Update staus of work</li>
-            <li>Generated monthly performance report</li>
-          </ul>
-        </section>
+    const sortedWorkers = useMemo(() => {
+        let sortableItems = [...workers];
+        if (sortConfig !== null) {
+            sortableItems.sort((a, b) => {
+                if (a[sortConfig.key] < b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? -1 : 1;
+                }
+                if (a[sortConfig.key] > b[sortConfig.key]) {
+                    return sortConfig.direction === 'ascending' ? 1 : -1;
+                }
+                return 0;
+            });
+        }
+        return sortableItems;
+    }, [workers, sortConfig]);
 
-        <section className="quick-actions">
-          <h2>Quick Actions</h2>
-          <div className="actions">
-            <button className="action-button">Add New User</button>
-            <button className="action-button">View All Users</button>
-            <button className="action-button">Manage Requests</button>
-            <button className="action-button">Contact worker</button>
-          </div>
-        </section>
-      </div>
-    </div>
-  );
+    const filteredWorkers = useMemo(() => {
+        return sortedWorkers.filter(worker =>
+            worker.id.toString().includes(searchTerm.toLowerCase()) ||
+            worker.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            worker.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            worker.natureOfWork.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            worker.experience.toString().includes(searchTerm.toLowerCase()) ||
+            worker.mobile.includes(searchTerm.toLowerCase()) ||
+            worker.totalTasksCompleted.toString().includes(searchTerm.toLowerCase())
+        );
+    }, [sortedWorkers, searchTerm]);
+
+    const requestSort = (key) => {
+        let direction = 'ascending';
+        if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+            direction = 'descending';
+        }
+        setSortConfig({ key, direction });
+    };
+
+    const handleAddWorker = () => {
+        // Logic to add a new worker (you can prompt the user for worker details or navigate to another page)
+        alert('Add new worker functionality');
+    };
+
+    const handleEditWorker = (worker) => {
+        // Logic to edit the worker (you can open a modal for editing)
+        alert(`Edit worker: ${worker.name}`);
+    };
+
+    return (
+        <div className="worker-table">
+            <div className="header-controls">
+                <input
+                    type="text"
+                    placeholder="Search "
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="search-input"
+                />
+                <button className="add-button" onClick={handleAddWorker}>Add Worker</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th onClick={() => requestSort('id')}>WORKER ID</th>
+                        <th onClick={() => requestSort('name')}>WORKER NAME</th>
+                        <th onClick={() => requestSort('email')}>EMAIL</th>
+                        <th onClick={() => requestSort('natureOfWork')}>NATURE OF WORK</th>
+                        <th onClick={() => requestSort('experience')}>YEARS OF EXPERIENCE</th>
+                        <th onClick={() => requestSort('mobile')}>MOBILE NUMBER</th>
+                        <th onClick={() => requestSort('totalTasksCompleted')}>TOTAL TASKS COMPLETED</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {filteredWorkers.map(worker => (
+                        <tr key={worker.id}>
+                            <td>{worker.id}</td>
+                            <td>{worker.name}</td>
+                            <td>{worker.email}</td>
+                            <td>{worker.natureOfWork}</td>
+                            <td>{worker.experience} years</td>
+                            <td>{worker.mobile}</td>
+                            <td>{worker.totalTasksCompleted}</td>
+                            <td>
+                                <button className="edit-button" onClick={() => handleEditWorker(worker)}>Edit</button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 }
 
 export default AdminDashboard;

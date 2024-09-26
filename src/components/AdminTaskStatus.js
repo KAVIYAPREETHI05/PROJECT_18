@@ -1,101 +1,139 @@
-import React, { useState, useEffect } from 'react';
-import '../CSS/AdminTaskStatus.css'; // Ensure you have a corresponding CSS file for styling
+import React, { useState, useMemo } from 'react';
+import '../CSS/AdminTaskStatus.css';
+
+const initialTasks = [
+  { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
+  { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
+  { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
+  { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
+  { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
+
+  // Add more initial tasks here...
+];
+
+const initialTaskStatuses = [
+  { id: 21868, status: 'Completed' },
+  // Add more task statuses here...
+];
 
 function AdminTaskStatus() {
-  // Sample task data
-  const [taskStatuses, setTaskStatuses] = useState([
-    { id: 'SFA1', workerId: 'W01', description: 'Short Circuit', duration: '30 min 45 sec', status: 'Completed' },
-    { id: 'ASB2', workerId: 'W02', description: 'Network Issue', duration: '45 min 30 sec', status: 'Pending' },
-    { id: 'EWC3', workerId: 'W03', description: 'Wifi Problem', duration: '60 min 15 sec', status: 'In Progress' },
-  ]);
+  const [tasks, setTasks] = useState(initialTasks);
+  const [taskStatuses, setTaskStatuses] = useState(initialTaskStatuses);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
 
-  const [sortColumn, setSortColumn] = useState('id');
-  const [sortDirection, setSortDirection] = useState('asc');
+  // Sort tasks based on sort configuration
+  const sortedTasks = useMemo(() => {
+    let sortableItems = [...tasks];
+    if (sortConfig.key) {
+      sortableItems.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? -1 : 1;
+        }
+        if (a[sortConfig.key] > b[sortConfig.key]) {
+          return sortConfig.direction === 'ascending' ? 1 : -1;
+        }
+        return 0;
+      });
+    }
+    return sortableItems;
+  }, [tasks, sortConfig]);
 
-  const sortTasks = (column) => {
-    const direction = sortColumn === column && sortDirection === 'asc' ? 'desc' : 'asc';
-    const sortedTasks = [...taskStatuses].sort((a, b) => {
-      if (a[column] < b[column]) return direction === 'asc' ? -1 : 1;
-      if (a[column] > b[column]) return direction === 'asc' ? 1 : -1;
-      return 0;
-    });
-    setTaskStatuses(sortedTasks);
-    setSortColumn(column);
-    setSortDirection(direction);
+  // Filter tasks based on search term
+  const filteredTasks = useMemo(() => {
+    return sortedTasks.filter(task =>
+      task.id.toString().includes(searchTerm.toLowerCase()) ||
+      task.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.estimationTime.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.totalMembers.toString().includes(searchTerm.toLowerCase()) ||
+      task.coworkers.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      task.location.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [sortedTasks, searchTerm]);
+
+  // Request sort configuration
+  const requestSort = (key) => {
+    let direction = 'ascending';
+    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+      direction = 'descending';
+    }
+    setSortConfig({ key, direction });
   };
 
-  // Function to update task status
-  const updateStatus = (id, newStatus) => {
-    setTaskStatuses(taskStatuses.map(task =>
-      task.id === id ? { ...task, status: newStatus } : task
-    ));
+  // Handle status change
+  const handleStatusChange = (event, taskId) => {
+    const updatedStatus = event.target.value;
+    setTaskStatuses((prevStatuses) =>
+      prevStatuses.map((status) =>
+        status.id === taskId ? { ...status, status: updatedStatus } : status
+      )
+    );
   };
 
-  // Function to handle status change
-  const handleStatusChange = (e, id) => {
-    updateStatus(id, e.target.value);
+  // Update task status
+  const updateStatus = (taskId, status) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (task) {
+      alert(`Updating status for Task: ${task.description} to ${status}`);
+      // Here you would make an API call or update logic to persist the status
+    }
   };
 
-  // Auto-timer for duration update (simulated)
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTaskStatuses(prevTasks =>
-        prevTasks.map(task => {
-          const [mins, secs] = task.duration.split(' ').map(Number);
-          const newSecs = (secs + 1) % 60;
-          const newMins = mins + Math.floor((secs + 1) / 60);
-          return {
-            ...task,
-            duration: `${newMins} min ${newSecs} sec`,
-          };
-        })
-      );
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
+  // Get task status by task ID
+  const getTaskStatus = (taskId) => {
+    const statusObj = taskStatuses.find(status => status.id === taskId);
+    return statusObj ? statusObj.status : 'Pending';
+  };
 
   return (
-    <div className="admin-task-status">
-      <h1>Task Status</h1>
-      <div className="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th onClick={() => sortTasks('id')}>Task ID {sortColumn === 'id' ? (sortDirection === 'asc' ? '🔼' : '🔽') : ''}</th>
-              <th onClick={() => sortTasks('workerId')}>Worker ID {sortColumn === 'workerId' ? (sortDirection === 'asc' ? '🔼' : '🔽') : ''}</th>
-              <th onClick={() => sortTasks('description')}>Task Description {sortColumn === 'description' ? (sortDirection === 'asc' ? '🔼' : '🔽') : ''}</th>
-              <th onClick={() => sortTasks('duration')}>Duration {sortColumn === 'duration' ? (sortDirection === 'asc' ? '🔼' : '🔽') : ''}</th>
-              <th onClick={() => sortTasks('status')}>Status {sortColumn === 'status' ? (sortDirection === 'asc' ? '🔼' : '🔽') : ''}</th>
-              <th>Actions</th>
+    <div className="task-table">
+      <input
+        type="text"
+        placeholder="Search "
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="search-input"
+      />
+      <table>
+        <thead>
+          <tr>
+            <th onClick={() => requestSort('id')}>TASK ID</th>
+            <th onClick={() => requestSort('description')}>TASK DESCRIPTION</th>
+            <th onClick={() => requestSort('estimationTime')}>ESTIMATION TIME</th>
+            <th onClick={() => requestSort('totalMembers')}>TOTAL MEMBERS</th>
+            <th onClick={() => requestSort('coworkers')}>CO-WORKERS</th>
+            <th onClick={() => requestSort('location')}>LOCATION</th>
+            <th>STATUS</th>
+            <th>ACTION</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredTasks.map(task => (
+            <tr key={task.id}>
+              <td>{task.id}</td>
+              <td>{task.description}</td>
+              <td>{task.estimationTime}</td>
+              <td>{task.totalMembers}</td>
+              <td>{task.coworkers}</td>
+              <td>{task.location}</td>
+              <td>
+                <select
+                  value={getTaskStatus(task.id)}
+                  onChange={(e) => handleStatusChange(e, task.id)}
+                >
+                  <option value="Completed">Completed</option>
+                  <option value="Not Completed">Not Completed</option>
+                  <option value="In Progress">In Progress</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </td>
+              <td>
+                <button onClick={() => updateStatus(task.id, getTaskStatus(task.id))}>Update</button>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {taskStatuses.map(task => (
-              <tr key={task.id}>
-                <td>{task.id}</td>
-                <td>{task.workerId}</td>
-                <td>{task.description}</td>
-                <td>{task.duration}</td>
-                <td>
-                  <select
-                    value={task.status}
-                    onChange={(e) => handleStatusChange(e, task.id)}
-                  >
-                    <option value="Completed">Completed</option>
-                    <option value="Not Completed">Not Completed</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Pending">Pending</option>
-                  </select>
-                </td>
-                <td>
-                  <button onClick={() => updateStatus(task.id, task.status)}>Update</button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

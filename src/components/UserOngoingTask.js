@@ -1,12 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import '../CSS/UserNewTaskPage.css';
+//import '../CSS/UserNewTaskPage.css';
 
 const initialTasks = [
     { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
     // Add more initial tasks here...
 ];
 
-function UserNewTaskPage() {
+function UserOngoingTask() {
     const [tasks, setTasks] = useState(initialTasks);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
@@ -115,4 +115,4 @@ function UserNewTaskPage() {
     );
 }
 
-export default UserNewTaskPage;
+export default UserOngoingTask;

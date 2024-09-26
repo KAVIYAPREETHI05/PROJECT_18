@@ -1,9 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import '../CSS/UserNewTaskPage.css';
+//import '../CSS/UserNewTaskPage.css';
 
 const initialTasks = [
     { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
-    { id: 21867, description: 'Database Migration', estimationTime: '6 hours', totalMembers: 3, coworkers: 'SUDHARSAN, RAVI', location: 'Room 202' },
+    { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
+    
     // Add more initial tasks here...
 ];
 
@@ -11,10 +12,13 @@ function UserNewTaskPage() {
     const [tasks, setTasks] = useState(initialTasks);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+    const [selectedTask, setSelectedTask] = useState(null); // To track the selected task
+    const [dropdownTaskId, setDropdownTaskId] = useState(null); // To track the task for dropdown
 
+    // Sort tasks based on sort configuration
     const sortedTasks = useMemo(() => {
         let sortableItems = [...tasks];
-        if (sortConfig !== null) {
+        if (sortConfig.key) {
             sortableItems.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
                     return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -28,6 +32,7 @@ function UserNewTaskPage() {
         return sortableItems;
     }, [tasks, sortConfig]);
 
+    // Filter tasks based on search term
     const filteredTasks = useMemo(() => {
         return sortedTasks.filter(task =>
             task.id.toString().includes(searchTerm.toLowerCase()) ||
@@ -39,6 +44,7 @@ function UserNewTaskPage() {
         );
     }, [sortedTasks, searchTerm]);
 
+    // Request sort configuration
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -47,8 +53,18 @@ function UserNewTaskPage() {
         setSortConfig({ key, direction });
     };
 
-    const handleMessageClick = (task) => {
-        alert(`Send message about task: ${task.description}`);
+    // Handle dropdown selection
+    const handleDropdownChange = (event) => {
+        const option = event.target.value;
+        if (dropdownTaskId) {
+            const task = tasks.find(t => t.id === dropdownTaskId);
+            if (task) {
+                const message = `Task: ${task.description}\nStatus: ${option}`;
+                alert(`Message to admin:\n${message}`);
+                // Here you would make an API call to send the message to the admin
+            }
+        }
+        setDropdownTaskId(null); // Reset dropdown task ID
     };
 
     return (
@@ -69,7 +85,7 @@ function UserNewTaskPage() {
                         <th onClick={() => requestSort('totalMembers')}>TOTAL MEMBERS</th>
                         <th onClick={() => requestSort('coworkers')}>CO-WORKERS</th>
                         <th onClick={() => requestSort('location')}>LOCATION</th>
-                        
+                        <th>ACTION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -81,7 +97,10 @@ function UserNewTaskPage() {
                             <td>{task.totalMembers}</td>
                             <td>{task.coworkers}</td>
                             <td>{task.location}</td>
-                            
+                            <td>
+                            <button >Start</button>
+
+                            </td>
                         </tr>
                     ))}
                 </tbody>

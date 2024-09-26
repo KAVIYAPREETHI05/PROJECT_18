@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import '../CSS/UserNewTaskPage.css';
+import '../CSS/UserCompletedTask.css';
 
 const initialTasks = [
     { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },

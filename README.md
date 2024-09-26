@@ -68,3 +68,13 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+https://www.youtube.com/watch?v=dP4goCkKxlw&list=PLGRDMO4rOGcNLnW1L2vgsExTBg-VPoZHr
+
+Create a Spring Boot Project
+You can generate a Spring Boot project using Spring Initializr or your IDE. Choose the following dependencies:
+
+Spring Web
+Spring Data JPA
+MySQL Driver

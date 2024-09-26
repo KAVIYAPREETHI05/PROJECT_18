@@ -1,66 +1,53 @@
-/* UserTaskPage.css */
-.user-task-page {
-    padding: 40px;
-    font-family: Arial, sans-serif;
-  }
+.task-table {
+  width: 100%;
+  margin: 20px auto;
+}
+
+.search-input {
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+thead th {
+  background-color: #f4f4f4;
+  padding: 20px;
+  text-align: left;
+  cursor: pointer;
+}
+
+tbody tr {
+  border-bottom: 1px solid #ddd;
   
-  .user-task-page h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  .table-container {
-    overflow-x: auto; /* Allows horizontal scrolling on smaller screens */
-  }
-  
-  table {
-    width: 50px;
-    border-collapse: collapse;
-    margin-top: 30px;
-    height: 100px;
-  }
-  
-  th, td {
-    padding: 40px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-  }
-  
-  th {
-    background-color: #f4f4f4;
-    cursor: pointer;
-  }
-  
-  th:hover {
-    background-color: #ddd;
-  }
-  
-  td {
-    background-color: #fff;
-  }
-  
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  th, td {
-    font-size: 14px;
-  }
-  
-  th {
-    font-weight: bold;
-    min-width: 150px; /* Set a minimum width for better readability */
-  }
-  
-  /* Optional: Add responsiveness for smaller screens */
-  @media (max-width: 768px) {
-    th, td {
-      font-size: 12px;
-      padding: 30px;
-    }
-  }
-  
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+td {
+  padding: 20px;
+}
+
+td, th {
+  text-align: left;
+}
+
+tbody tr:hover {
+  background-color: #f1f1f1;
+}
+.task-table select {
+padding: 5px;
+font-size: 14px;
+}
+

@@ -10,24 +10,31 @@ function Sidebar({ userType }) {
     <div className="sidebar">
       <h2>{userType === 'admin' ? 'Admin Panel' : 'User Panel'}</h2>
       <ul className="nav-items">
-        <li className={isActive(`/${userType}/dashboard`) ? 'active' : ''}>
-          <Link to={`/${userType}/dashboard`}>Dashboard</Link>
-        </li>
-        <li className={isActive(`/${userType}/task`) ? 'active' : ''}>
-          <Link to={`/${userType}/task`}>New Task</Link>
-        </li>
-       
-        <li className={isActive(`/${userType}/completed`) ? 'active' : ''}>
-          <Link to={`/${userType}/completed`}>Completed Task</Link>
-        </li>
-        <li className={isActive(`/${userType}/ongoing`) ? 'active' : ''}>
-          <Link to={`/${userType}/ongoing`}>On Progress Task</Link>
-        </li>
-        <li className={isActive(`/${userType}/contact`) ? 'active' : ''}>
-          <Link to={`/${userType}/contact`}>Contact</Link>
-        </li>
+        {userType === 'user' && (
+          <>
+            <li className={isActive('/user/dashboard') ? 'active' : ''}>
+              <Link to="/user/dashboard">Dashboard</Link>
+            </li>
+            <li className={isActive('/user/task') ? 'active' : ''}>
+              <Link to="/user/task">New Task</Link>
+            </li>
+            <li className={isActive('/user/completed') ? 'active' : ''}>
+              <Link to="/user/completed">Completed Task</Link>
+            </li>
+            <li className={isActive('/user/ongoing') ? 'active' : ''}>
+              <Link to="/user/ongoing">On Progress Task</Link>
+            </li>
+            <li className={isActive('/user/contact') ? 'active' : ''}>
+              <Link to="/user/contact">Contact</Link>
+            </li>
+          </>
+        )}
+
         {userType === 'admin' && (
           <>
+          <li className={isActive('/admin/admin-dashboard') ? 'active' : ''}>
+              <Link to="/admin/admin-dashboard">Dashboard</Link>
+            </li>
             <li className={isActive('/admin/task-assign') ? 'active' : ''}>
               <Link to="/admin/task-assign">Assign Task</Link>
             </li>

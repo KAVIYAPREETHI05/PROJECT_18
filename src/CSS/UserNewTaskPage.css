@@ -1,52 +1,52 @@
+/* UserNewTaskPage.css */
+
 .task-table {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+    border-collapse: collapse;
     width: 100%;
-    margin: 20px auto;
 }
 
 .search-input {
-    width: 80%;
-    padding: 10px;
-    margin-bottom: 20px;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
     font-size: 16px;
-    border-radius: 5px;
     border: 1px solid #ccc;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
 }
 
-thead th {
-    background-color: #f4f4f4;
-    padding: 10px;
+th, td {
+    border: 1px solid #ddd;
+    padding: 20px;
     text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
     cursor: pointer;
+    position: sticky;
+    top: 0;
+    z-index: 1;
 }
 
-tbody tr {
-    border-bottom: 1px solid #ddd;
+th:hover {
+    background-color: #ddd;
 }
 
-tbody tr:nth-child(even) {
+tr:nth-child(even) {
     background-color: #f9f9f9;
 }
 
-td {
-    padding: 10px;
-}
-
-td, th {
-    text-align: left;
-}
-
-tbody tr:hover {
+tr:hover {
     background-color: #f1f1f1;
 }
-.task-table select {
-  padding: 5px;
-  font-size: 14px;
-}
 
+td {
+    vertical-align: middle;
+}
