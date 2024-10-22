@@ -78,3 +78,14 @@ You can generate a Spring Boot project using Spring Initializr or your IDE. Choo
 Spring Web
 Spring Data JPA
 MySQL Driver
+
+,{ state: { worker, onUpdateWorker } }
+
+
+in my frontend i have files like admindashboard,userdashboard,admintaskassign,admintaskstatus,editworker,addworker,loginpage,sidebar,user newtask,ongoingtask,completedtask,contact details and their css files
+how to connect all those files corespondingly with backend using database
+
+
+
+
+

@@ -52,7 +52,7 @@ td {
 }
 /* AdminDashboard.css */
 .header-controls {
-  display: flex;
+  
   justify-content: space-between;
   margin-bottom: 20px;
 }
@@ -70,6 +70,7 @@ td {
   cursor: pointer;
   width: 100px;
   height: 40px;
+  margin-left: 10px;
 }
 
 .add-button:hover {
@@ -88,5 +89,37 @@ td {
 .edit-button:hover {
   background-color: #005f73;
 }
+
+.modal {
+ /* position: fixed;*/
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px; /* Adjust width as needed */
+}
+
+.modal-content h2 {
+  margin-bottom: 20px;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 /*new
 */

@@ -1,16 +1,85 @@
+import '../CSS/AddWorker.css';
 import React, { useState } from 'react';
-import '../CSS/AdminTaskAssign.css'; // Ensure you have a corresponding CSS file for styling
 
-function AdminTaskAssign() {
-  const [taskId, setTaskId] = useState('');
-  const [taskDescription, setTaskDescription] = useState('');
-  const [numberOfWorkers, setNumberOfWorkers] = useState(1);
-  const [workerIds, setWorkerIds] = useState(['']); // Array for worker IDs
-  const [minutes, setMinutes] = useState('0');
-  const [seconds, setSeconds] = useState('0');
-  const [message, setMessage] = useState('');
+function AssignTask({ onSaveWorker, setIsModalOpen }) {
+    const [newWork, setNewWork] = useState({
+        id: '',
+        taskDescription: '',
+        natureOfWork: '',
+        numberOfWorkers: '',
+        mobile: '',
+        estimatedTime: ''
+    });
+    const [numberOfWorkers, setNumberOfWorkers] = useState(1);
+    const [workerIds, setWorkerIds] = useState(['']); // Array for worker IDs
+    const [minutes, setMinutes] = useState('0');
+    const [hours, setSeconds] = useState('0');
 
-  // Dynamically handle worker ID input changes
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const validateFields = () => {
+        const errors = {};
+        const mobilePattern = /^\d{10}$/;
+
+        if (!newWork.id) errors.id = 'Task ID is required.';
+        if (!newWork.taskDescription) errors.taskDescription = 'Task description is required.';
+        if (!newWork.natureOfWork) errors.natureOfWork = 'Please select the nature of work.';
+        if (newWork.numberOfWorkers === '') {
+            errors.numberOfWorkers = 'Number of workers is required.';
+        } else if (newWork.numberOfWorkers < 0) {
+            errors.numberOfWorkers = 'Number of workers cannot be negative.';
+        }
+        if (!newWork.mobile) {
+            errors.mobile = 'Mobile number is required.';
+        } else if (!mobilePattern.test(newWork.mobile)) {
+            errors.mobile = 'Mobile number must be exactly 10 digits.';
+        }
+        if (newWork.estimatedTime === '') {
+            errors.estimatedTime = 'Estimated time is required.';
+        } else if (newWork.estimatedTime < 0) {
+            errors.estimatedTime = 'Estimated time cannot be negative.';
+        }
+
+        return errors;
+    };
+
+    const handleTaskAssign = () => {
+        const errors = validateFields();
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            return; // Stop save process if there are errors
+        }
+
+        onSaveWorker({ ...newWork, id: Date.now() }); // Save the new worker
+        setIsModalOpen(false); // Close modal after saving
+        resetForm(); // Reset form fields
+    };
+
+    const resetForm = () => {
+        setNewWork({
+            id: '',
+            taskDescription: '',
+            natureOfWork: '',
+            numberOfWorkers: '',
+            mobile: '',
+            estimatedTime: ''
+        });
+        setValidationErrors({}); // Clear validation errors
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setNewWork(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault(); // Prevent form submission via Enter key
+        handleTaskAssign();
+    };
+      // Dynamically handle worker ID input changes
   const handleWorkerIdChange = (index, value) => {
     const updatedWorkerIds = [...workerIds];
     updatedWorkerIds[index] = value;
@@ -24,46 +93,57 @@ function AdminTaskAssign() {
     setWorkerIds(Array(num).fill('')); // Reset or expand workerIds array
   };
 
-  const handleAssignTask = () => {
-    if (taskId && taskDescription && workerIds.every(id => id) && minutes !== '' && seconds !== '') {
-      setMessage(`Task "${taskDescription}" assigned to Workers: ${workerIds.join(', ')} with estimated time ${minutes} minutes and ${seconds} seconds.`);
-      // Clear form after assigning the task
-      setTaskId('');
-      setTaskDescription('');
-      setNumberOfWorkers(1);
-      setWorkerIds(['']);
-      setMinutes('0');
-      setSeconds('0');
-    } else {
-      setMessage('Please fill out all fields.');
-    }
-  };
+  
 
-  return (
-    <div className="admin-task-assign">
-      <h1>Assign Task</h1>
-      <div className="form-container">
-        <div className="form-group">
-          <label htmlFor="task-id">Task ID</label>
-          <input 
-            id="task-id"
-            type="text" 
-            placeholder="Task ID" 
-            value={taskId} 
-            onChange={(e) => setTaskId(e.target.value)} 
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="task-description">Task Description</label>
-          <input 
-            id="task-description"
-            type="text" 
-            placeholder="Task Description" 
-            value={taskDescription} 
-            onChange={(e) => setTaskDescription(e.target.value)} 
-          />
-        </div>
-        <div className="form-group">
+    return (
+        <div className="modal">
+            <div className="modal-content">
+                <h2>Assign Task</h2>
+                <form onSubmit={handleFormSubmit}>
+                    <div>
+                        <input
+                            type="text"
+                            name="id"
+                            value={newWork.id}
+                            onChange={handleInputChange}
+                            placeholder="Task ID"
+                            aria-label="Task ID"
+                            required
+                        />
+                        {validationErrors.id && <p className="error">{validationErrors.id}</p>}
+                    </div>
+
+                    <div>
+                        <input
+                            type="text"
+                            name="taskDescription"
+                            value={newWork.taskDescription}
+                            onChange={handleInputChange}
+                            placeholder="Task Description"
+                            aria-label="Task Description"
+                            required
+                        />
+                        {validationErrors.taskDescription && <p className="error">{validationErrors.taskDescription}</p>}
+                    </div>
+
+                    <div>
+                        <select
+                            name="natureOfWork"
+                            value={newWork.natureOfWork}
+                            onChange={handleInputChange}
+                            aria-label="Nature of Work"
+                            required
+                        >
+                            <option value="" disabled>Select Nature of Work</option>
+                            <option value="Designer">Designer</option>
+                            <option value="Plumber">Plumber</option>
+                            <option value="Electrician">Electrician</option>
+                        </select>
+                        {validationErrors.natureOfWork && <p className="error">{validationErrors.natureOfWork}</p>}
+                    </div>
+
+                
+                    <div className="form-group">
           <label htmlFor="number-of-workers">Number of Workers Needed</label>
           <select 
             id="number-of-workers"
@@ -88,34 +168,44 @@ function AdminTaskAssign() {
             />
           </div>
         ))}
-        <div className="form-group">
+
+
+                    <div className="form-group">
           <label>Estimated Time</label>
           <div className="time-inputs">
+          <select 
+              id="hours"
+              value={hours}
+              onChange={(e) => setSeconds(e.target.value)}
+            >
+              {[...Array(24).keys()].map(num => (
+                <option key={num} value={num}>{num} hr</option>
+              ))}
+            </select>
             <select 
               id="minutes"
               value={minutes}
               onChange={(e) => setMinutes(e.target.value)}
             >
-              {[...Array(61).keys()].map(num => (
+              {[...Array(60).keys()].map(num => (
                 <option key={num} value={num}>{num} min</option>
               ))}
             </select>
-            <select 
-              id="seconds"
-              value={seconds}
-              onChange={(e) => setSeconds(e.target.value)}
-            >
-              {[...Array(60).keys()].map(num => (
-                <option key={num} value={num}>{num} sec</option>
-              ))}
-            </select>
+           
           </div>
         </div>
-        <button onClick={handleAssignTask}>Assign Task</button>
-        {message && <p className="message">{message}</p>}
-      </div>
-    </div>
-  );
+                    <button type="submit" className="save-button">Assign Task</button>
+                </form>
+                
+                <button className="close-button" onClick={() => {
+                    setIsModalOpen(false);
+                    resetForm(); // Reset the form when closing
+                }}>
+                    Close
+                </button>
+            </div>
+        </div>
+    );
 }
 
-export default AdminTaskAssign;
+export default AssignTask;

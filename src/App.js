@@ -11,6 +11,8 @@ import AdminDashboard from './components/AdminDashboard';
 import AdminTaskAssign from './components/AdminTaskAssign';
 import AdminTaskStatus from './components/AdminTaskStatus';
 import LoginPage from './components/LoginPage';
+import AddWorker from './components/AddWorker';
+import EditWorker from './components/EditWorker';
 import '../src/CSS/Sidebar.css';
 //import '../src/CSS';
 import './App.css';
@@ -34,8 +36,11 @@ function App() {
           {/* Admin Routes */}
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="admin-dashboard" element={<AdminDashboard />} />
+            <Route path="add-worker" element={<AddWorker/>}/>
+            <Route path="edit-worker" element={<EditWorker/>}/>
             <Route path="task-assign" element={<AdminTaskAssign />} />
             <Route path="task-status" element={<AdminTaskStatus />} />
+            
           </Route>
 
           {/* Default Route */}

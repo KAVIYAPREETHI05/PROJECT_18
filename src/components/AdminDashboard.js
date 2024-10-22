@@ -1,13 +1,12 @@
-//import React from 'react';
-import '../CSS/AdminDashboard.css';
+import '../CSS/AdminDashboard.css'; // Importing CSS styles for the AdminDashboard component.
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom'; // Importing useNavigate for programmatic navigation within the app.
 
 const initialWorkers = [
     { id: 101, name: 'Anand Kumar', email: 'anand.k@example.com', natureOfWork: 'Server Maintenance', experience: 5, mobile: '9876543210', totalTasksCompleted: 12 },
     { id: 102, name: 'Rajesh Kumar', email: 'rajesh.k@example.com', natureOfWork: 'Database Management', experience: 3, mobile: '9876543211', totalTasksCompleted: 8 },
     { id: 103, name: 'Sudharsan M', email: 'sudharsan.m@example.com', natureOfWork: 'Network Setup', experience: 4, mobile: '9876543212', totalTasksCompleted: 10 },
     { id: 104, name: 'Ravi Kumar', email: 'ravi.k@example.com', natureOfWork: 'Software Development', experience: 2, mobile: '9876543213', totalTasksCompleted: 5 },
-    
     // Add more workers if necessary
 ];
 
@@ -15,6 +14,7 @@ function AdminDashboard() {
     const [workers, setWorkers] = useState(initialWorkers);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
+    const navigate = useNavigate(); // Hook for navigating between routes.
 
     const sortedWorkers = useMemo(() => {
         let sortableItems = [...workers];
@@ -53,14 +53,15 @@ function AdminDashboard() {
     };
 
     const handleAddWorker = () => {
-        // Logic to add a new worker (you can prompt the user for worker details or navigate to another page)
-        alert('Add new worker functionality');
+        navigate('/admin/add-worker'); // Navigate to the AddWorker page
     };
 
     const handleEditWorker = (worker) => {
-        // Logic to edit the worker (you can open a modal for editing)
-        alert(`Edit worker: ${worker.name}`);
+        navigate(`/admin/edit-worker/${worker.id}`); // Navigate to the EditWorker page with worker's id
     };
+    const onUpdateWorker = (updatedWorker) => {
+      setWorkers(workers.map(worker => (worker.id === updatedWorker.id ? updatedWorker : worker)));
+  };
 
     return (
         <div className="worker-table">
@@ -68,16 +69,18 @@ function AdminDashboard() {
                 <input
                     type="text"
                     placeholder="Search "
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    value={searchTerm} // Controlled input for search term.
+                    onChange={(e) => setSearchTerm(e.target.value)} // Update search term state on input change.
                     className="search-input"
                 />
-                <button className="add-button" onClick={handleAddWorker}>Add Worker</button>
+                <button className="add-button" onClick={handleAddWorker}>Add Worker</button> {/* Button to navigate to Add Worker page */}
             </div>
 
+            {/* Table to display the list of workers */}
             <table>
                 <thead>
                     <tr>
+                        {/* Column headers with sorting functionality */}
                         <th onClick={() => requestSort('id')}>WORKER ID</th>
                         <th onClick={() => requestSort('name')}>WORKER NAME</th>
                         <th onClick={() => requestSort('email')}>EMAIL</th>
@@ -89,6 +92,7 @@ function AdminDashboard() {
                     </tr>
                 </thead>
                 <tbody>
+                    {/* Mapping through the filteredWorkers array to display each worker */}
                     {filteredWorkers.map(worker => (
                         <tr key={worker.id}>
                             <td>{worker.id}</td>
@@ -99,6 +103,7 @@ function AdminDashboard() {
                             <td>{worker.mobile}</td>
                             <td>{worker.totalTasksCompleted}</td>
                             <td>
+                                {/* Button to trigger the edit functionality */}
                                 <button className="edit-button" onClick={() => handleEditWorker(worker)}>Edit</button>
                             </td>
                         </tr>

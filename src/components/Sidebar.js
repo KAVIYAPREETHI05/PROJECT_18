@@ -35,12 +35,19 @@ function Sidebar({ userType }) {
           <li className={isActive('/admin/admin-dashboard') ? 'active' : ''}>
               <Link to="/admin/admin-dashboard">Dashboard</Link>
             </li>
+            <li className={isActive('/admin/add-worker') ? 'active' : ''}>
+              <Link to="/admin/add-worker">Add Worker</Link>
+            </li>
+            <li className={isActive('/admin/edit-worker') ? 'active' : ''}>
+              <Link to="/admin/edit-worker">Edit Worker</Link>
+            </li>
             <li className={isActive('/admin/task-assign') ? 'active' : ''}>
               <Link to="/admin/task-assign">Assign Task</Link>
             </li>
             <li className={isActive('/admin/task-status') ? 'active' : ''}>
               <Link to="/admin/task-status">Task Status</Link>
             </li>
+           
           </>
         )}
       </ul>

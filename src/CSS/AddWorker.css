@@ -1,0 +1,129 @@
+/* AdminDashboard.css */
+
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+}
+
+.worker-table {
+    margin: 20px;
+}
+
+.header-controls {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background-color: #218838;
+}
+
+/* Modal styles */
+.modal {
+    position: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    max-width: 90%;
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+}
+
+/* Input styles */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input[type="text"],
+input[type="emai"],
+input[type="number"],
+select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Ensure padding and border are included in total width */
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+select:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Dropdown styles */
+select {
+    appearance: none; /* Remove default dropdown arrow */
+    background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23999"%3E%3Cpath d="M7 10l5 5 5-5z"/%3E%3C/svg%3E'); /* Custom dropdown arrow */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 20px;
+}
+
+/* Button styles */
+.save-button,
+.close-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px; 
+    margin-right: 10px;
+    width: 100%;/* Add margin for spacing */
+}
+
+.save-button:hover {
+    background-color: #0069d9;
+}
+
+.close-button {
+    background-color: #dc3545;
+}
+
+.close-button:hover {
+    background-color: #c82333;
+}
+.time-inputs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+  
+  .time-inputs select {
+    flex: 0 1 auto;
+  }
+  
