@@ -1,22 +1,37 @@
-import React, { useState, useMemo } from 'react';
-//import '../CSS/UserNewTaskPage.css';
-
-const initialTasks = [
-    { id: 21868, description: 'Server Setup', estimationTime: '4 hours', totalMembers: 5, coworkers: 'ANAND, RAJ, SUDHARSAN', location: 'Room 101' },
-    // Add more initial tasks here...
-];
+import React, { useState, useEffect, useMemo } from 'react';
+import '../CSS/UserOngoingTask.css';
 
 function UserOngoingTask() {
-    const [tasks, setTasks] = useState(initialTasks);
+    const [tasks, setTasks] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [sortConfig, setSortConfig] = useState({ key: null, direction: 'ascending' });
-    const [selectedTask, setSelectedTask] = useState(null); // To track the selected task
-    const [dropdownTaskId, setDropdownTaskId] = useState(null); // To track the task for dropdown
 
-    // Sort tasks based on sort configuration
+    // Fetch tasks from the backend
+    useEffect(() => {
+        fetch('http://localhost:8080/api/tasks/ongoing') // Replace with the correct endpoint for ongoing tasks
+            .then(response => response.json())
+            .then(data => setTasks(data))
+            .catch(error => console.error('Error fetching tasks:', error));
+    }, []);
+
+    // Function to handle task completion
+    const handleTaskCompletion = (taskId) => {
+        fetch(`http://localhost:8080/api/tasks/${taskId}/complete`, {
+            method: 'POST',
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Task marked as completed!');
+            // Optionally, remove the completed task from the ongoing tasks list
+            setTasks(prevTasks => prevTasks.filter(task => task.id !== taskId));
+        })
+        .catch(error => console.error('Error marking task as completed:', error));
+    };
+
+    // Sorting logic
     const sortedTasks = useMemo(() => {
         let sortableItems = [...tasks];
-        if (sortConfig.key) {
+        if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
                 if (a[sortConfig.key] < b[sortConfig.key]) {
                     return sortConfig.direction === 'ascending' ? -1 : 1;
@@ -30,7 +45,7 @@ function UserOngoingTask() {
         return sortableItems;
     }, [tasks, sortConfig]);
 
-    // Filter tasks based on search term
+    // Filtering logic
     const filteredTasks = useMemo(() => {
         return sortedTasks.filter(task =>
             task.id.toString().includes(searchTerm.toLowerCase()) ||
@@ -42,7 +57,7 @@ function UserOngoingTask() {
         );
     }, [sortedTasks, searchTerm]);
 
-    // Request sort configuration
+    // Sorting request function
     const requestSort = (key) => {
         let direction = 'ascending';
         if (sortConfig.key === key && sortConfig.direction === 'ascending') {
@@ -51,25 +66,11 @@ function UserOngoingTask() {
         setSortConfig({ key, direction });
     };
 
-    // Handle dropdown selection
-    const handleDropdownChange = (event) => {
-        const option = event.target.value;
-        if (dropdownTaskId) {
-            const task = tasks.find(t => t.id === dropdownTaskId);
-            if (task) {
-                const message = `Task: ${task.description}\nStatus: ${option}`;
-                alert(`Message to admin:\n${message}`);
-                // Here you would make an API call to send the message to the admin
-            }
-        }
-        setDropdownTaskId(null); // Reset dropdown task ID
-    };
-
     return (
         <div className="task-table">
             <input
                 type="text"
-                placeholder="Search "
+                placeholder="Search tasks"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -79,11 +80,11 @@ function UserOngoingTask() {
                     <tr>
                         <th onClick={() => requestSort('id')}>TASK ID</th>
                         <th onClick={() => requestSort('description')}>TASK DESCRIPTION</th>
-                        <th onClick={() => requestSort('estimationTime')}>ESTIMATION TIME</th>
+                        <th onClick={() => requestSort('estimationTime')}>TIME TAKEN</th>
                         <th onClick={() => requestSort('totalMembers')}>TOTAL MEMBERS</th>
                         <th onClick={() => requestSort('coworkers')}>CO-WORKERS</th>
                         <th onClick={() => requestSort('location')}>LOCATION</th>
-                        <th>ACTION</th>
+                        <th>ACTION</th> {/* New column for completion action */}
                     </tr>
                 </thead>
                 <tbody>
@@ -96,16 +97,9 @@ function UserOngoingTask() {
                             <td>{task.coworkers}</td>
                             <td>{task.location}</td>
                             <td>
-                                <select
-                                    value={dropdownTaskId === task.id ? 'Select an option' : ''}
-                                    onChange={handleDropdownChange}
-                                    onClick={() => setDropdownTaskId(task.id)}
-                                >
-                                    <option value="" disabled>Message</option>
-                                    <option value="Completed">Completed</option>
-                                    <option value="Need Time">Need Time</option>
-                                    <option value="Need Time">Not Completed</option>
-                                </select>
+                                <button onClick={() => handleTaskCompletion(task.id)}>
+                                    Complete
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -116,3 +110,8 @@ function UserOngoingTask() {
 }
 
 export default UserOngoingTask;
+
+
+
+
+

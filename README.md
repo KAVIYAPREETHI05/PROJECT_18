@@ -85,6 +85,21 @@ MySQL Driver
 in my frontend i have files like admindashboard,userdashboard,admintaskassign,admintaskstatus,editworker,addworker,loginpage,sidebar,user newtask,ongoingtask,completedtask,contact details and their css files
 how to connect all those files corespondingly with backend using database
 
+AddWorker.js
+AdminDashboard.js
+AdminTaskAssign.js
+AdminTaskStatus.js
+EditWorker.js
+LoginPage.js
+Sidebar.js
+UserCompletedTask.js
+UserContact.js
+UserDashboard.js
+UserNewtask.js
+UserOngoingTask.js
+UserView.js
+
+
 
 
 

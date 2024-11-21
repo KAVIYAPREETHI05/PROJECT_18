@@ -7,6 +7,19 @@ const initialTasks = [
     
     // Add more initial tasks here...
 ];
+const startTask = (taskId) => {
+    fetch(`http://localhost:8080/api/tasks/${taskId}/status?status=InProgress`, {
+        method: 'PATCH',
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Update the task state or notify the user
+        console.log("Task started", data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+};
 
 function UserNewTaskPage() {
     const [tasks, setTasks] = useState(initialTasks);
@@ -98,7 +111,8 @@ function UserNewTaskPage() {
                             <td>{task.coworkers}</td>
                             <td>{task.location}</td>
                             <td>
-                            <button >Start</button>
+                           <button onClick={() => startTask(task.id)}>Start</button>
+
 
                             </td>
                         </tr>
@@ -110,4 +124,5 @@ function UserNewTaskPage() {
 }
 
 export default UserNewTaskPage;
+
 
